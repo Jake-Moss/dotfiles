@@ -1,8 +1,8 @@
 ## quick terminal
 # Add this to your i3 config (~/.config/i3/config) and restart i3 (Super+Shift+R)
-exec --no-startup-id "konsole"
-for_window [class="konsole"] move scratchpad, move position 150 150, resize set 1700 800;
-bindsym Mod1+space [class="konsole"] scratchpad show;
+exec --no-startup-id "Alacritty"
+for_window [class="Alacritty"] move scratchpad, move position 150 150, resize set 1700 800;
+bindsym Mod1+space [class="Alacritty"] scratchpad show;
 
 # # (No) Title Bars
 # for_window [class="^.*"] border pixel 0
@@ -62,7 +62,7 @@ font pango:Helvetica Neue, FontAwesome 11
 floating_modifier $mod
 
 # Start a terminal
-bindsym $mod+Return exec konsole
+bindsym $mod+Return exec Alacritty
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -221,8 +221,8 @@ exec_always --no-startup-id picom --experimental-backends   # Bare compositor to
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 for_window [class="yakuake"] floating enable
 for_window [class="systemsettings"] floating enable
-exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/Image_8_XOygnM3.jpg
-exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/Image_8_XOygnM3.jpg
+exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/Bliss.jpg
+exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/Bliss.jpg
 exec_always --no-startup-id latte-dock
 # exec+always --no-startup-id nitrogen --restore
 ## Plasma Integration

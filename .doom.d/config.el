@@ -213,6 +213,11 @@
  :map matlab-mode-map
  :n "C-<return>" #'matlab-shell-run-region-or-line)
 
+(map!
+ :after matlab-mode
+ :map matlab-shell-mode-map
+ "C-tab" nil)
+
 ;; expand region
 (after! expand-region
   (map! "C-SPC" #'er/expand-region)
@@ -268,3 +273,14 @@
 
   (define-key evil-inner-text-objects-map "q" 'my-evil-textobj-anyblock-inner-quote)
   (define-key evil-outer-text-objects-map "q" 'my-evil-textobj-anyblock-a-quote))
+
+;; company box fix for gccemacs
+(after! company-box
+  (advice-remove #'company-box--update-scrollbar #'+company-remove-scrollbar-a))
+  (setq company-box-doc-enable nil)
+
+;; multicursor ignored commands
+(after! evil-mc
+  (add-to-list
+   'evil-mc-custom-known-commands
+   '(ess-smart-comma . ((:default . evil-mc-execute-default-call)))))
