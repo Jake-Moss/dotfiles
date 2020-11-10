@@ -56,14 +56,10 @@
 (package! dap-mode)
 (use-package! evil-tex
   :hook (LaTeX-mode . evil-tex-mode))
-;; (package! flyspell-correct)
 (package! flyspell-correct-ivy)
 (package! flyspell-lazy)
-(package! tab-jump-out)
+;; (package! tab-jump-out)
 (package! expand-region)
-;; (package! doom-snippets
-;;   :load-path "/home/jake/.doom.d/lisp/doom-snippets"
-;;   :after yasnippet)
 
 ;; (package! pdf-continuous-scroll-mode :recipe (:host github :repo "dalanicolai/pdf-continuous-scroll-mode.el"))
 

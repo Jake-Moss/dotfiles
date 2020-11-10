@@ -104,23 +104,43 @@
 ;; flycheck
 
 (setq flycheck-check-syntax-automatically '(mode-enabled new-line))
+(setq flycheck-flake8rc "~/.config/flake8")
 
-;; multiple-cursors
-;; (global-set-key (kbd "C-c C-SPC") 'set-rectangular-region-anchor)
-;; (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-;; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(add-hook 'lsp-after-initialize-hook
+          (lambda ()
+            (flycheck-add-next-checker 'lsp '(warning . python-flake8))))
 
-(eval-after-load "python"
-'(define-key python-mode-map (kbd "C-c C-c")
-(lambda () (interactive) (python-shell-send-buffer t) (python-shell-switch-to-shell))))  (setq dap-python-terminal "konsole -e ")
 
 (require 'dap-mode)
 (require 'dap-ui)
 (require 'dap-python)
+(eval-after-load "python"
+'(define-key python-mode-map (kbd "C-c C-c")
+   (lambda () (interactive) (python-shell-send-buffer t) (python-shell-switch-to-shell))))
+;; (setq dap-python-terminal "konsole -e ")
+(defun debugging-mode ()
+  (interactive)
+  (dap-mode t)
+  (dap-ui-mode t)
+  (dap-tooltip-mode)
+  (dap-ui-controls-mode 1)
+  (dap-ui-sessions)
+  (dap-ui-locals)
+  (dap-ui-breakpoints)
+  (dap-ui-repl)
+  )
+
+(defun stop-debugging-mode ()
+  (interactive)
+  (dap-delete-all-sessions)
+  (dap-mode 0)
+  (dap-ui-mode 0)
+  (dap-ui-controls-mode 0)
+  (delete-other-windows) ;; hide all the dap UI. I might want to delete the buffers as well.
+  )
 ;; (dap-mode 1)
 ;; (dap-ui-mode 1)
+
 
 ;; (add-hook 'after-init-hook 'smartparens-global-mode)
 (add-hook 'after-init-hook 'global-display-line-numbers-mode)
@@ -153,6 +173,14 @@
   (ibuffer))
 
 (setq +ivy-buffer-preview t)
+
+(after! ivy-posframe
+ (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
+ (ivy-posframe-mode 1)
+(setq ivy-posframe-parameters
+      '((left-fringe . 8)
+        (right-fringe . 8)))
+ )
 
 (map! :map evil-window-map
       "SPC" #'rotate-layout
@@ -219,9 +247,11 @@
  "C-tab" nil)
 
 ;; expand region
+(require 'expand-region)
 (after! expand-region
-  (map! "C-SPC" #'er/expand-region)
-  (map! "C-S-SPC" #'er/contract-region))
+  (map! :n "C-SPC" nil)
+  (map! :n "C-SPC" #'er/expand-region)
+  (map! :n "C-S-SPC" #'er/contract-region))
 
 ;; window managment
 (global-set-key (kbd "M-<tab>") (lambda ()

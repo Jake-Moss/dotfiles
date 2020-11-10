@@ -2,10 +2,10 @@
 # ~/.bash_profile
 #
 
-[[ -f ~/.bashrc ]] && . ~/.bashrc
+#[[ -f ~/.bashrc ]] && . ~/.bashrc
 
-PATH=$PATH:~/.emacs.d/bin/
+# include .bashrc if it exists
+if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+fi
 
-alias r="radian"
-
-alias activate_matlab="/usr/local/MATLAB/R2019b/bin/activate_matlab.sh"

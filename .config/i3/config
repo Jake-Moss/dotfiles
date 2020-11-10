@@ -1,7 +1,7 @@
 ## quick terminal
 # Add this to your i3 config (~/.config/i3/config) and restart i3 (Super+Shift+R)
 exec --no-startup-id "Alacritty"
-for_window [class="Alacritty"] move scratchpad, move position 150 150, resize set 1700 800;
+for_window [class="Alacritty"] move scratchpad, move position 150 150, resize set 1620 780;
 bindsym Mod1+space [class="Alacritty"] scratchpad show;
 
 # # (No) Title Bars
@@ -246,7 +246,6 @@ no_focus [window_type="NOTIFICATION"]
 
 
 
-
 ### i3-gaps stuff ###
 
 # Necessary for i3-gaps to work properly (pixel can be any value)
@@ -261,6 +260,8 @@ for_window [class="MATLAB R2019b - academic use" instance="sun-awt-X11-XFramePee
 for_window [class="MATLAB R2019b - academic use" instance="sun-awt-X11-XFramePeer" title="^Figure [0-9]"] floating enable, border normal
 for_window [class="R_x11" instance="r_x11"] floating enable
 for_window [class="Mathpix Snipping Tool"] floating enable
+for_window [class="Tk"] floating enable
+for_window [class="Pamac-manager"] floating enable
 
 
 # Smart Gaps

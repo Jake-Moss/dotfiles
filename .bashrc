@@ -165,3 +165,12 @@ n ()
             rm -f "$NNN_TMPFILE" > /dev/null
     fi
 }
+
+
+#source ~/.bash_profile
+
+alias r="radian"
+alias activate_matlab="/usr/local/MATLAB/R2019b/bin/activate_matlab.sh"
+
+PATH=$PATH:~/.emacs.d/bin/
+
