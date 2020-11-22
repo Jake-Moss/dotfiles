@@ -56,7 +56,56 @@
 
 
 ;; PERSONAL CONFIG
-(load! "lisp/tab-jump-out/tab-jump-out")
+
+(defun what-we-do-every-night-pinky ()
+  (put-text-property
+   (point)
+   (progn
+     (mapc (lambda (line)
+             (insert
+              (+doom-dashboard--center
+               +doom-dashboard--width
+               (let ((extra (max 0 (- +doom-dashboard--width (length line)))))
+                 (concat line (make-string extra 32))))
+              " \n"))
+           '("Are you pondering what I'm pondering, Pinky?"
+             ""
+             "                          ,,,        !/:. "
+             "                         /::\\\".      !!::: "
+             "                         :::::\\\".  ,\" \\:,:: "
+             "                         ::::::\\ \". ,\",\"\\::. "
+             "                         \\:::::\":\\ \"/\"\"v' :' "
+             "                          !::::\\   !    \\ \\   __ "
+             "                           \"::::\\  \\     ! \\.&&&&, "
+             "                              ,\" __ \",  cd,&&&&&&' "
+             "                              \\    \". \"\" / \\&&&\"                       _,--- "
+             "                                \"\",__\\_        /                    _,:\"::::: "
+             "                              _,\" ,\"\"  ,-,__,/\":,_                ,\",\"::::::: "
+             "                           _,\"  ,\"     `''   ::::,\",__,,----,,__,\" /::::::::: "
+             "                        ,\"   ,\".__,          \\:::,\"            \"  /:::\":::::/ "
+             "                      ,\"  ,/\"::::::\\          >\"                 (_-\"/:::::: "
+             "                     /  ,\"_!:::::::/,       ,\"              _,,--,  /::::::/ "
+             "                   /   \"\" _,\"\\:::::::'     !              ,\"      ){:::::/ "
+             "                  !    _,\"    \\ \"\",         \\,\"\"\"-,____,\"__,,,\"_,\" _/ "
+             "                   \"\"t\"       \\\\   \\          \"-,_(*)&&&&(*),\" \\ .\" "
+             "                    /          \\\",  !            ,   \\   ! -    ) "
+             "                    !          \\  \"\"             !    !==!\"-,__,' "
+             "                    !           \\                 \"\"\"_\"\"\"\"`, \", /\"_ "
+             "                    \\       ,   .l                 /\" \"     \", \\! ,_/ "
+             "                     ),     \\   / \\                \\/       ,, /! ! "
+             "                   ,::\\      \\,\"   \\                !        \\/ ! ! "
+             "               _,::::\" )     )\\  ,\"  ___            \\ -,_,  ,\"\",! ! "
+             "        __,,,::::\"\"   ,\"   ,\":::,-:::--:\"           __\\_!__/_\"\"-,_! "
+             "  ,,:::\"\"\"\"\"\"\"      ,:_,\"\"__...._\"\"\"::::\"\"       /:::::\" \"\":::::: "
+             " (:._              l::::::::::::\\\\/               \"\"          \"\" "
+             "   \"\"\"\"--,,,---              \"\"\"\" "
+             ""
+             "I think so Brain..."))
+     (point))
+   'face 'doom-dashboard-banner))
+
+(setq +doom-dashboard-ascii-banner-fn #'what-we-do-every-night-pinky)
+
 ;; pretiefy mode
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 
@@ -111,13 +160,16 @@
             (flycheck-add-next-checker 'lsp '(warning . python-flake8))))
 
 
+;; dap mode
 (require 'dap-mode)
 (require 'dap-ui)
 (require 'dap-python)
 (eval-after-load "python"
 '(define-key python-mode-map (kbd "C-c C-c")
    (lambda () (interactive) (python-shell-send-buffer t) (python-shell-switch-to-shell))))
-;; (setq dap-python-terminal "konsole -e ")
+
+(require 'dap-lldb)
+
 (defun debugging-mode ()
   (interactive)
   (dap-mode t)
@@ -138,8 +190,6 @@
   (dap-ui-controls-mode 0)
   (delete-other-windows) ;; hide all the dap UI. I might want to delete the buffers as well.
   )
-;; (dap-mode 1)
-;; (dap-ui-mode 1)
 
 
 ;; (add-hook 'after-init-hook 'smartparens-global-mode)
@@ -314,3 +364,11 @@
   (add-to-list
    'evil-mc-custom-known-commands
    '(ess-smart-comma . ((:default . evil-mc-execute-default-call)))))
+
+;; define function to shutdown emacs server instance
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server"
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs)
+  )
