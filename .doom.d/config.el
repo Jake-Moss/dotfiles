@@ -25,7 +25,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-vibrant)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -33,7 +33,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
 
 
 ;; Here are some additional functions/macros that could help you configure Doom:
@@ -106,43 +106,98 @@
 
 (setq +doom-dashboard-ascii-banner-fn #'what-we-do-every-night-pinky)
 
+
+;; spc spc for M-x
+(map! :leader :n "SPC" #'execute-extended-command)
+
+
 ;; pretiefy mode
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 
 ;; latex
-(setq +latex-viewers '(pdf-tools))
+(after! latex
+  (setq TeX-parse-self t) ; Enable parse on load.
+  (setq TeX-auto-save t) ; Enable parse on save.
 
-(add-hook 'pdf-view-mode-hook
-          (lambda ()
-            (display-line-numbers-mode -1)))
+  (add-hook 'pdf-view-mode-hook
+            (lambda ()
+              (display-line-numbers-mode -1)))
 
-(add-hook 'LaTeX-mode-hook
-          (lambda ()
-            (setq company-idle-delay 0.2)
-            (tab-jump-out-mode 1)
-            (turn-off-smartparens-mode)))
+  (add-hook 'LaTeX-mode-hook
+            (lambda ()
+              (setq company-idle-delay 0.8)
+              ))
 
-;; better smartparens for latex mode, smart parens is disbled by the above
-(setq LaTeX-electric-left-right-brace t)
+  (setq preview-image-type 'dvipng)
 
-(defvar latex-enable-auto-fill t
-  "Whether to use auto-fill-mode or not in tex files.")
+  ;; (setq LaTeX-electric-left-right-brace t)
+  ;; (add-hook 'LaTeX-mode-hook #'turn-off-smartparens-mode)
 
-(defvar latex-enable-folding nil
-  "Whether to use `TeX-fold-mode' or not in tex/latex buffers.")
+  (sp-with-modes '(tex-mode
+                   plain-tex-mode
+                   latex-mode
+                   LaTeX-mode)
+    (sp-local-pair "\\left(" "\\right)"
+                   :trigger "\\l("
+                   :when '(sp-in-math-p)
+                   :post-handlers '(sp-latex-insert-spaces-inside-pair))
 
-(defvar latex-nofill-env '("equation"
-                           "equation*"
-                           "align"
-                           "align*"
-                           "tabular"
-                           "tikzpicture")
-  "List of environment names in which `auto-fill-mode' will be inhibited.")
+    (sp-local-pair "\\left[" "\\right]"
+                   :trigger "\\l["
+                   :when '(sp-in-math-p)
+                   :post-handlers '(sp-latex-insert-spaces-inside-pair))
+
+    (sp-local-pair "\\left\\{" "\\right\\}"
+                   :trigger "\\l{"
+                   :when '(sp-in-math-p)
+                   :post-handlers '(sp-latex-insert-spaces-inside-pair))
+
+    (sp-local-pair "\\left|" "\\right|"
+                   :trigger "\\l|"
+                   :when '(sp-in-math-p)
+                   :post-handlers '(sp-latex-insert-spaces-inside-pair))
+
+    (sp-local-pair "\\lfloor" "\\rfloor"
+                   :trigger "\\lfoor"
+                   :when '(sp-in-math-p)
+                   :post-handlers '(sp-latex-insert-spaces-inside-pair))
+
+    (sp-local-pair "\\lceil" "\\rceil"
+                   :trigger "\\lceil"
+                   :when '(sp-in-math-p)
+                   :post-handlers '(sp-latex-insert-spaces-inside-pair))
+
+    (sp-local-pair "\\langle" "\\rangle"
+                   :trigger "\\l<"
+                   :when '(sp-in-math-p)
+                   :post-handlers '(sp-latex-insert-spaces-inside-pair))
+  )
+  (setq-hook! 'TeX-mode-hook sp-max-pair-length 8)
+  (map! :map LaTeX-mode-map "<backtab>" 'up-list)
 
 
-;; Update PDF buffers after successful LaTeX runs
-(add-hook 'TeX-after-compilation-finished-functions
-           #'TeX-revert-document-buffer)
+
+  ;; Use pdf-tools to open PDF files
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+        TeX-source-correlate-start-server t)
+
+  ;; Update PDF buffers after successful LaTeX runs
+  (add-hook 'TeX-after-compilation-finished-functions
+            #'TeX-revert-document-buffer)
+
+
+  (defvar latex-enable-auto-fill t
+    "Whether to use auto-fill-mode or not in tex files.")
+
+  (defvar latex-nofill-env '("equation"
+                             "equation*"
+                             "align"
+                             "align*"
+                             "tabular"
+                             "tikzpicture")
+    "List of environment names in which `auto-fill-mode' will be inhibited.")
+)
+
 
 ;; flyspell
 (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-wrapper)
@@ -193,20 +248,14 @@
 
 
 ;; (add-hook 'after-init-hook 'smartparens-global-mode)
-(add-hook 'after-init-hook 'global-display-line-numbers-mode)
+;; (add-hook 'after-init-hook 'global-display-line-numbers-mode)
 
-(setq display-line-numbers 'relative)
-(setq-default display-line-numbers-type 'visual
-        display-line-numbers-current-absolute t
-        display-line-numbers-width 3
-        display-line-numbers-widen t)
+;; (setq display-line-numbers 'relative)
+;; (setq-default display-line-numbers-type 'visual
+;;         display-line-numbers-current-absolute t
+;;         display-line-numbers-width 3
+;;         display-line-numbers-widen t)
 
-(eval-after-load "evil"
-'(progn
-(define-key evil-normal-state-map (kbd "SPC <left>") 'evil-window-left)
-(define-key evil-normal-state-map (kbd "SPC <down>") 'evil-window-down)
-(define-key evil-normal-state-map (kbd "SPC <up>") 'evil-window-up)
-(define-key evil-normal-state-map (kbd "SPC <right>") 'evil-window-right)))
 
 ;; lsp
 (setq lsp-ui-doc-delay 2)
@@ -215,9 +264,6 @@
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
 
-;; (defadvice! prompt-for-buffer (&rest _)
-;;   :after '(evil-window-split evil-window-vsplit)
-;;   (+ivy/switch-buffer))
 (defadvice! prompt-for-buffer (&rest _)
   :after '(evil-window-split evil-window-vsplit)
   (ibuffer))
@@ -255,53 +301,37 @@
 
 ;; Discord integration
 (elcord-mode)
+(setq elcord-use-major-mode-as-main-icon t)
 
-
-;; ;; https://github.com/syl20bnr/spacemacs/pull/179
-;; (defvar company-mode/enable-yas t
-;;   "Enable yasnippet for all backends.")
-
-;; (defun company-mode/backend-with-yas (backend)
-;;   (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-;;       backend
-;;     (append (if (consp backend) backend (list backend))
-;;             '(:with company-yasnippet))))
-
-;; (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
 ;; ess
 (set-company-backend! 'ess-r-mode '(company-R-args company-R-objects company-dabbrev-code :separate))
 
 ;; matlab-mode
- ;; (eval-after-load "matlab-mode"
- ;;    '(define-key matlab-mode-map (kbd "<C-return>") 'matlab-shell-run-region-or-line))
-  (add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode))
-  (setq matlab-indent-function-body t)
-  (matlab-cedet-setup)
+(after! matlab-mode
+ (add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode))
+ (setq matlab-indent-function-body t)
+ (matlab-cedet-setup)
 
-;; disable '' auto pairing in electric-pair-mode for matlab-mode (' is transpose operator)
-(sp-local-pair 'matlab-mode "'" nil :actions nil)
+ (map!
+  :after matlab-mode
+  :map evil-normal-state-local-map
+  "C-<return>" nil)
 
-(map!
- :after matlab-mode
- :map evil-normal-state-local-map
- "C-<return>" nil)
+ (map!
+  :map matlab-mode-map
+  :n "C-<return>" #'matlab-shell-run-region-or-line)
 
-(map!
- :map matlab-mode-map
- :n "C-<return>" #'matlab-shell-run-region-or-line)
-
-(map!
- :after matlab-mode
- :map matlab-shell-mode-map
- "C-tab" nil)
+ (map!
+  :after matlab-mode
+  :map matlab-shell-mode-map
+  "C-tab" nil)
+ )
 
 ;; expand region
-(require 'expand-region)
-(after! expand-region
-  (map! :n "C-SPC" nil)
-  (map! :n "C-SPC" #'er/expand-region)
-  (map! :n "C-S-SPC" #'er/contract-region))
+(map! :nv "C-SPC" nil
+      :nv "C-SPC" #'er/expand-region
+      :nv "C-S-SPC" #'er/contract-region)
 
 ;; window managment
 (global-set-key (kbd "M-<tab>") (lambda ()
@@ -354,10 +384,10 @@
   (define-key evil-inner-text-objects-map "q" 'my-evil-textobj-anyblock-inner-quote)
   (define-key evil-outer-text-objects-map "q" 'my-evil-textobj-anyblock-a-quote))
 
-;; company box fix for gccemacs
-(after! company-box
-  (advice-remove #'company-box--update-scrollbar #'+company-remove-scrollbar-a))
-  (setq company-box-doc-enable nil)
+;; ;; company box fix for gccemacs
+;; (after! company-box
+;;   (advice-remove #'company-box--update-scrollbar #'+company-remove-scrollbar-a))
+;;   (setq company-box-doc-enable nil)
 
 ;; multicursor ignored commands
 (after! evil-mc
@@ -371,4 +401,32 @@
   (interactive)
   (save-some-buffers)
   (kill-emacs)
+  )
+
+;; smartparens
+(after! smartparens
+ (sp-local-pair 'org-mode "\\[" "\\]" :trigger "\\[")
+
+ ;; disable '' auto pairing in electric-pair-mode for matlab-mode (' is transpose operator)
+ (sp-local-pair 'matlab-mode "'" nil :actions nil)
+ )
+
+
+
+;; org
+(after! org
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((latex . t)))
+
+  (setq org-src-window-setup 'split-window-below)
+  (setq org-latex-create-formula-image-program 'dvipng)
+
+  ;; fix color handling in org-preview-latex-fragment
+  (let ((dvipng--plist (alist-get 'dvipng org-preview-latex-process-alist)))
+    (plist-put dvipng--plist :use-xcolor t)
+    (plist-put dvipng--plist :image-converter '("dvipng -D %D -T tight -o %O %f")))
+
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+  ;; (setq org-format-latex-options (plist-put org-format-latex-options :background 'auto))
   )

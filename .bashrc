@@ -172,5 +172,7 @@ n ()
 alias r="radian"
 alias activate_matlab="/usr/local/MATLAB/R2019b/bin/activate_matlab.sh"
 
-PATH=$PATH:~/.emacs.d/bin/
+export PATH=~/.emacs.d/bin:$PATH
 
+export EDITOR=vim
+export VISUAL=vim

@@ -53,14 +53,17 @@
 ;; Private config
 
 (package! matlab-mode)
+
 (package! dap-mode)
-(use-package! evil-tex
-  :hook (LaTeX-mode . evil-tex-mode))
+
 (package! flyspell-correct-ivy)
+
 (package! flyspell-lazy)
-;; (package! tab-jump-out)
+
 (package! expand-region)
 
 ;; (package! pdf-continuous-scroll-mode :recipe (:host github :repo "dalanicolai/pdf-continuous-scroll-mode.el"))
 
 (package! elcord)
+
+(package! org-edit-latex)

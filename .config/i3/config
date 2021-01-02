@@ -263,7 +263,6 @@ for_window [class="Mathpix Snipping Tool"] floating enable
 for_window [class="Tk"] floating enable
 for_window [class="Pamac-manager"] floating enable
 
-
 # Smart Gaps
 smart_gaps on
 
@@ -320,8 +319,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 2 -5% #d
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 2 toggle # mute sound
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec /home/jake/.config/i3/light_increase.sh #increase screen brightness
-bindsym XF86MonBrightnessDown exec /home/jake/.config/i3/light_decrease.sh # decrease screen brightness
+# bindsym XF86MonBrightnessUp exec /home/jake/.config/i3/light_increase.sh #increase screen brightness
+# bindsym XF86MonBrightnessDown exec /home/jake/.config/i3/light_decrease.sh # decrease screen brightness
 
 # Touchpad controls
 # bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
