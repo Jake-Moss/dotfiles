@@ -53,8 +53,11 @@ Config {
                                                    , "-i"   , "<fc=#98be65>Charged</fc>"
                                          ] 50
                     , Run StdinReader
+
+                    , Run Com "/bin/sh" ["-c","~/.xmonad/spotify.sh"] "music" 300
+
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %coretemp% | %memory% | %battery% | %dynnetwork% | %date%  |"   -- #69DFFA
+       , template = "%StdinReader% }{ <fc=#C678DD>%music%</fc> | %cpu% | %coretemp% | %memory% | %battery% | %dynnetwork% | %date%  |"   -- #69DFFA
        }

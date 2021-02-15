@@ -5,7 +5,7 @@ import System.IO
 import System.Exit
 -- import System.Taffybar.Hooks.PagerHints (pagerHints)
 
-import qualified Data.List as L
+import Data.List
 
 import XMonad
 import XMonad.Actions.Navigation2D
@@ -62,7 +62,7 @@ myScreensaver = "dm-tool switch-to-greeter"
 mySelectScreenshot = "flameshot gui"
 
 -- The command to take a fullscreen screenshot.
-myScreenshot = "flameshot gui"
+myScreenshot = "flameshot screen --clipboard"
 
 -- The command to use as a launcher, to launch commands that don't have
 -- preset keybindings.
@@ -114,14 +114,16 @@ myManageHook = composeAll
     , className =? "Gimp"                         --> doCenterFloat
     , resource  =? "gpicview"                     --> doCenterFloat
     , className =? "MPlayer"                      --> doCenterFloat
-    , className =? "Pavucontrol"                  --> doCenterFloat
+    , className =? "Pavucontrol"                  --> floating
     , className =? "Mate-power-preferences"       --> doCenterFloat
     , className =? "Xfce4-power-manager-settings" --> doCenterFloat
     , className =? "Mathpix Snipping Tool"        --> doCenterFloat
     , className =? "stalonetray"                  --> doIgnore
+    , title     =? "emacs-everywhere"             --> doCenterFloat
     , isFullscreen                                --> (doF W.focusDown <+> doFullFloat)
     -- , isFullscreen                             --> doFullFloat
     ] <+> namedScratchpadManageHook myScratchPads
+    where floating = customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)
 
 
 
@@ -286,44 +288,44 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_p),
      spawn myLauncher)
 
-  -- Take a selective screenshot using the command specified by mySelectScreenshot.
-  , ((modMask .|. shiftMask, xK_p),
-     spawn mySelectScreenshot)
+  -- -- Take a selective screenshot using the command specified by mySelectScreenshot.
+  -- , ((modMask .|. shiftMask, xK_p),
+  --    spawn mySelectScreenshot)
 
-  -- Take a full screenshot using the command specified by myScreenshot.
-  , ((modMask .|. controlMask .|. shiftMask, xK_p),
-     spawn myScreenshot)
+  -- -- Take a full screenshot using the command specified by myScreenshot.
+  -- , ((modMask .|. controlMask .|. shiftMask, xK_p),
+  --    spawn myScreenshot)
 
   -- Toggle current focus window to fullscreen
   , ((modMask, xK_f), sendMessage $ Toggle FULL)
 
-  -- Mute volume.
-  , ((0, xF86XK_AudioMute),
-     spawn "amixer -q set Master toggle")
+  -- -- Mute volume.
+  -- , ((0, xF86XK_AudioMute),
+  --    spawn "amixer -q set Master toggle")
 
-  -- Decrease volume.
-  , ((0, xF86XK_AudioLowerVolume),
-     spawn "amixer -q set Master 5%-")
+  -- -- Decrease volume.
+  -- , ((0, xF86XK_AudioLowerVolume),
+  --    spawn "amixer -q set Master 5%-")
 
-  -- Increase volume.
-  , ((0, xF86XK_AudioRaiseVolume),
-     spawn "amixer -q set Master 5%+")
+  -- -- Increase volume.
+  -- , ((0, xF86XK_AudioRaiseVolume),
+  --    spawn "amixer -q set Master 5%+")
 
-  -- Audio previous.
-  , ((0, 0x1008FF16),
-     spawn "")
+  -- -- Audio previous.
+  -- , ((0, 0x1008FF16),
+  --    spawn "")
 
-  -- Play/pause.
-  , ((0, 0x1008FF14),
-     spawn "")
+  -- -- Play/pause.
+  -- , ((0, 0x1008FF14),
+  --    spawn "")
 
-  -- Audio next.
-  , ((0, 0x1008FF17),
-     spawn "")
+  -- -- Audio next.
+  -- , ((0, 0x1008FF17),
+  --    spawn "")
 
-  -- Eject CD tray.
-  , ((0, 0x1008FF2C),
-     spawn "eject -T")
+  -- -- Eject CD tray.
+  -- , ((0, 0x1008FF2C),
+  --    spawn "eject -T")
 
   --------------------------------------------------------------------
   -- "Standard" xmonad key bindings

@@ -54,16 +54,21 @@
 
 (package! matlab-mode)
 
-(package! dap-mode)
-
 (package! flyspell-correct-ivy)
 
 (package! flyspell-lazy)
 
 (package! expand-region)
 
-;; (package! pdf-continuous-scroll-mode :recipe (:host github :repo "dalanicolai/pdf-continuous-scroll-mode.el"))
-
 (package! elcord)
 
 (package! org-edit-latex)
+
+(package! engrave-faces :recipe (:host github :repo "tecosaur/engrave-faces"))
+
+(package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
+
+;; (package! emacs-everywhere
+;;   :recipe (:host github
+;;            :repo "tecosaur/emacs-everywhere"
+;;            :files ("emacs-everywhere.el" "scripts")))
