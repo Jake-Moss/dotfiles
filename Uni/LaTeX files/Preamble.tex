@@ -1,0 +1,93 @@
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools,commath}
+\usepackage{physics}
+% \usepackage[margin=15mm]{geometry}
+\usepackage[top=1in, bottom=1.25in, left=1.25in, right=1.25in]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{tcolorbox}
+\usepackage[final]{pdfpages}
+\usepackage{relsize}
+\usepackage{etoolbox}
+\usepackage[shortlabels]{enumitem}
+% \usepackage[en-GB,showzone=false]{datetime2}
+\setlength\parindent{0pt}
+\usepackage{parskip}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{float} \restylefloat{table}
+\usepackage{gauss}
+
+\graphicspath{ {./} }
+
+\allowdisplaybreaks%
+
+%-------------------------------------------- COMMANDS
+\newcommand{\sidebyside}[2]{
+  
+      \vspace{-1em}\noindent\begin{minipage}[t]{.5\linewidth}%
+            #1
+      \end{minipage}\vspace{1em}%
+      \vspace{-1em}\noindent\begin{minipage}[t]{.5\linewidth}
+            #2
+      \end{minipage}
+      \vspace{1em}
+      }
+
+\newcommand{\sidebysidebyside}[3]{
+      
+      \vspace{-1em}\noindent\begin{minipage}[t]{.3\linewidth}
+            #1
+      \end{minipage}%
+      \vspace{-1em}\noindent\begin{minipage}[t]{.3\linewidth}
+            #2
+      \end{minipage}%
+      \vspace{-1em}\noindent\begin{minipage}[t]{.3\linewidth}
+            #3
+      \end{minipage}
+      
+      }
+
+\newenvironment{identity}
+  {\ignorespaces}
+  {\ignorespacesafterend}
+
+
+\newcommand{\coversheet}[2]{
+    \includepdf[pagecommand={
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[inner sep=0pt,scale=2] (Signature) at (2,-18.2) {\includegraphics[width=.25\textwidth]{/home/jake/Uni/signature.png}};
+        \node[inner sep=0pt] (Date) at (3.55,-8.25) {\textsf{\today}};
+        \node[inner sep=0pt] (Gav) at (10,-7.15) {\textsf{#1}};
+        \node[inner sep=0pt] (Tut time) at (10,-8) {\textsf{#2}};
+        \node[inner sep=0pt] (Date) at (12.5,-17.75) {\textsf{\today}};
+    \end{tikzpicture}}]{Coversheet}%chktex 31
+}
+
+%augmented matrix line
+\makeatletter
+\patchcmd\g@matrix%
+ {\vbox\bgroup}
+ {\vbox\bgroup\normalbaselines}% restore the standard base line skip
+ {}{}
+\makeatother
+
+
+\newcommand{\mline}[1][0pt]{%
+  \hspace{-\arraycolsep}%
+  \ifdim#1>0pt
+    \dimen0=\ht\strutbox \dimen2=\dimen0%chktex 41 %chktex 1
+    \advance\dimen0 #1\relax%chktex 41
+    \ht\strutbox=\dimen0%chktex 41
+  \fi
+  \smash{\strut\vrule} % the `\vrule` is as high and deep as a strut
+  % since assignments to \ht\strutbox are global, we restore the height
+  \ifdim#1>0pt
+    \ht\strutbox=\dimen2%chktex 41
+  \fi
+  \hspace{-\arraycolsep}%
+}
+
+\input{/home/jake/Uni/LaTeX files/Enviroments.tex}
+
+%shits gotta come last ffs
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Jake Moss}, pdfkeywords={s46409665 - jake.moss@uqconnect.edu.au}}%chktex 8
