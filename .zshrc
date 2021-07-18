@@ -61,7 +61,7 @@ bindkey '^[[1;5C' forward-word                                  #
 bindkey '^H' backward-kill-word                                 # delete previous word with ctrl+backspace
 bindkey '^[[Z' undo                                             # Shift+tab undo last action
 
-## Alias section 
+## Alias section
 alias cp="cp -i"                                                # Confirm before overwriting something
 alias df='df -h'                                                # Human-readable sizes
 alias free='free -m'                                            # Show sizes in MB
@@ -197,6 +197,7 @@ setopt dot_glob
 plugins=(
 	git
   emacs
+  zsh-vi-mode
 	history-substring-search
 	zsh-autosuggestions
 	zsh-syntax-highlighting)
@@ -212,14 +213,12 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export PATH=~/.emacs.d/bin:$PATH
-export PATH=/home/jake/.local/bin:$PATH
 
 # export ALTERNATE_EDITOR=gvim
 # export EDITOR="emacsclient -t -a ''"   # $EDITOR use Emacs in terminal
 # export VISUAL="emacsclient -a ''"   # $VISUAL use Emacs in GUI mode
-#
 
+alias activate_matlab="/usr/local/MATLAB/R2019b/bin/activate_matlab.sh"
 
 export PATH=$HOME/.config/rofi/bin:$PATH
 
@@ -251,9 +250,8 @@ n ()
     fi
 }
 
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
 
 alias cat="/home/jake/scripts/bash-cat-with-cat/cat.sh"
 alias ls='lsd'
@@ -263,3 +261,10 @@ alias cp="cp -i"
 alias mv='mv -i'
 alias rm='rm -i'
 alias activate_matlab="/usr/local/MATLAB/R2020b/bin/activate_matlab.sh"
+
+
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="/home/jake/.local/bin:$PATH"
+export PATH="/home/jake/.emacs.d/bin:$PATH"
+export PATH="/home/jake/scripts:$PATH"
+export PATH="/home/jake/.xmonad/:$PATH"

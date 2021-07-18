@@ -174,5 +174,4 @@ alias activate_matlab="/usr/local/MATLAB/R2019b/bin/activate_matlab.sh"
 
 export PATH=~/.emacs.d/bin:$PATH
 
-export EDITOR=vim
-export VISUAL=vim
+export PATH="/home/jake/.local/bin:$PATH"

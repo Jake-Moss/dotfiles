@@ -11,3 +11,6 @@ fi
 
 
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="/home/jake/.local/bin:$PATH"
+export PATH="/home/jake/.emacs.d/bin:$PATH"
+export PATH="/home/jake/scripts:$PATH"

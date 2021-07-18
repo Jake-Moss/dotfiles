@@ -51,24 +51,24 @@
 
 
 ;; Private config
-
+;;
+(package! evil-escape :disable t)
 (package! matlab-mode)
-
 (package! flyspell-correct-ivy)
-
 (package! flyspell-lazy)
-
-(package! expand-region)
-
+;; (package! expand-region)
 (package! elcord)
-
-(package! org-edit-latex)
-
+;; (package! org-edit-latex :recipe (:host github :repo "et2010/org-edit-latex"))
 (package! engrave-faces :recipe (:host github :repo "tecosaur/engrave-faces"))
-
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
-
-;; (package! emacs-everywhere
-;;   :recipe (:host github
-;;            :repo "tecosaur/emacs-everywhere"
-;;            :files ("emacs-everywhere.el" "scripts")))
+(package! org-pretty-table
+  :recipe (:host github :repo "Fuco1/org-pretty-table"))
+(package! org-fragtog)
+(package! org-appear :recipe (:host github :repo "awth13/org-appear"))
+;; (package! evil-motion-trainer :recipe (:host github :repo "martinbaillie/evil-motion-trainer"))
+(package! org-ol-tree
+  :recipe (:host github
+           :repo "Townk/org-ol-tree")
+  )
+(package! org-ref)
+;; (package! company-posframe)

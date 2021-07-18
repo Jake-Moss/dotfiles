@@ -1,21 +1,21 @@
-#!/bin/sh
+#!/bin/zsh
 
-# System tray
-if [ -z "$(pgrep trayer)" ] ; then
-    trayer --edge top \
-           --align right \
-           --widthtype percent \
-           --height 24 \
-           --alpha 0 \
-           --transparent true \
-           --width 5 \
-           --tint 0x282c34 &
-fi
+# # System tray
+# if [ -z "$(pgrep trayer)" ] ; then
+#     trayer --edge top \
+#            --align right \
+#            --widthtype percent \
+#            --height 24 \
+#            --alpha 0 \
+#            --transparent true \
+#            --width 5 \
+#            --tint 0x282c34 &
+# fi
 
-# Power manager
-if [ -z "$(pgrep xfce4-power-manager)" ] ; then
-    xfce4-power-manager &
-fi
+# # Power manager
+# if [ -z "$(pgrep xfce4-power-manager)" ] ; then
+#     xfce4-power-manager &
+# fi
 
 # Taffybar
 # if [ -z "$(pgrep taffybar)" ] ; then
@@ -36,11 +36,12 @@ fi
 # if [ -z "$(pgrep nitrogen)" ] ; then
 #     nitrogen --restore &
 # fi
+~/.fehbg &
 
-# Screensaver
-if [ -z "$(pgrep xscreensaver)" ] ; then
-    xscreensaver -no-splash &
-fi
+# # Screensaver
+# if [ -z "$(pgrep xscreensaver)" ] ; then
+#     xscreensaver -no-splash &
+# fi
 
 # # compton
 # if [ -z "$(pgrep compton)" ] ; then
@@ -57,4 +58,7 @@ fi
 #     insync start &
 # fi
 # xbindkeys
-xbindkeys
+
+picom &
+
+fusuma &

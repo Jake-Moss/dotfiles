@@ -46,7 +46,8 @@ import XMonad.Layout.IndependentScreens
 import XMonad.Util.NamedScratchpad
 import Data.Semigroup
 import XMonad.Hooks.DynamicProperty
-
+import XMonad.Actions.CycleWS
+import XMonad.Util.WorkspaceCompare
 ----------------------------mupdf--------------------------------------------
 -- Terminimport XMonad.Hooks.EwmhDesktopsal
 -- The preferred terminal program, which is used in a binding below and by
@@ -74,7 +75,8 @@ myLauncher = "rofi -show"
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["1: term ","2: web ","3: code ","4: media "] ++ map show [5..9]
+myWorkspaces = map show [1..9]
+-- myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
 
 
 -- scratchPads
@@ -120,6 +122,8 @@ myManageHook = composeAll
     , className =? "Mathpix Snipping Tool"        --> doCenterFloat
     , className =? "stalonetray"                  --> doIgnore
     , title     =? "emacs-everywhere"             --> doCenterFloat
+    , className =? "Matplotlib"                   --> doCenterFloat
+    , className =? "matplotlib"                   --> doCenterFloat
     , isFullscreen                                --> (doF W.focusDown <+> doFullFloat)
     -- , isFullscreen                             --> doFullFloat
     ] <+> namedScratchpadManageHook myScratchPads
@@ -180,7 +184,7 @@ myNav2DConf = def
 
 
 ------------------------------------------------------------------------
--- Colors and borders
+  -- Colors and borders
 
 -- Color of current window title in xmobar.
 xmobarTitleColor = "#C678DD"
@@ -259,6 +263,11 @@ myTabTheme = def
     , inactiveTextColor     = base00
     }
 
+getSortByIndexNoNSP =
+        fmap (.namedScratchpadFilterOutWorkspace) getSortByIndex
+
+nextNonEmptyWS = findWorkspace getSortByIndexNoNSP Next HiddenNonEmptyWS 1
+        >>= \t -> windows . W.view $ t
 ------------------------------------------------------------------------
 -- Key bindings
 --
@@ -407,6 +416,12 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
   , ((modMask, xK_s),
      namedScratchpadAction myScratchPads "spotify")
+
+  -- , ((altMask .|. controlMask, xK_h ) , moveTo Prev NonEmptyWS)
+  , ((altMask .|. controlMask, xK_h ) , windows . W.greedyView =<< findWorkspace getSortByIndexNoNSP Prev HiddenNonEmptyWS 1)
+
+  , ((altMask .|. controlMask, xK_l ) , windows . W.greedyView =<< findWorkspace getSortByIndexNoNSP Next HiddenNonEmptyWS 1)
+  
   ]
   ++
 
@@ -511,7 +526,7 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 --
 -- By default, do nothing.
 myStartupHook = do
-  setWMName "LG3D"
+  setWMName "Xmonad"
   spawn     "bash ~/.xmonad/startup.sh"
   setDefaultCursor xC_left_ptr
 
@@ -523,7 +538,7 @@ main = do
   -- xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc.hs"
 
   n <- countScreens
-  xmprocs <- mapM (\i -> spawnPipe $ "xmobar ~/.xmonad/xmobarrc.hs" ++ " -x " ++ show i) [0..n-1]
+  xmprocs <- mapM (\i -> spawnPipe $ "/home/jake/.local/bin/xmobar ~/.xmonad/xmobar.config" ++ " -x " ++ show i) [0..n-1]
 
   -- xmproc <- spawnPipe "taffybar"
   xmonad $ docks
